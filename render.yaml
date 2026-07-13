@@ -1,6 +1,6 @@
 services:
   - type: web
-    name: safetrade-detector
+    name: taco-fnqb
     env: python
     plan: free
     buildCommand: bash build.sh
