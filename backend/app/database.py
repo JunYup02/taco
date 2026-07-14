@@ -1,11 +1,18 @@
+import os
 from datetime import datetime, timezone
 from pathlib import Path
 
 from sqlalchemy import create_engine, String, Float, Boolean, DateTime, Integer
 from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column, sessionmaker
 
-DB_PATH = Path(__file__).resolve().parent.parent / "data.db"
-engine = create_engine(f"sqlite:///{DB_PATH}", connect_args={"check_same_thread": False})
+DATABASE_URL = os.environ.get("DATABASE_URL")
+
+if DATABASE_URL:
+    engine = create_engine(DATABASE_URL)
+else:
+    DB_PATH = Path(__file__).resolve().parent.parent / "data.db"
+    engine = create_engine(f"sqlite:///{DB_PATH}", connect_args={"check_same_thread": False})
+
 SessionLocal = sessionmaker(bind=engine, autoflush=False, autocommit=False)
 
 
