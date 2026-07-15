@@ -20,6 +20,14 @@ class Base(DeclarativeBase):
     pass
 
 
+class User(Base):
+    __tablename__ = "users"
+
+    id: Mapped[int] = mapped_column(Integer, primary_key=True)
+    email: Mapped[str] = mapped_column(String, unique=True)
+    name: Mapped[str] = mapped_column(String, nullable=True)
+
+
 class Report(Base):
     __tablename__ = "reports"
 

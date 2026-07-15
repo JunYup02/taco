@@ -1,9 +1,9 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import ListingForm from "./components/ListingForm";
 import SellerForm from "./components/SellerForm";
 import VerdictResult from "./components/VerdictResult";
 import ReportForm from "./components/ReportForm";
-import { analyze } from "./api";
+import { analyze, getWelcomeUser } from "./api";
 
 const initialListing = {
   title: "",
@@ -52,6 +52,13 @@ export default function App() {
   const [status, setStatus] = useState("idle"); // idle | loading | error
   const [showReport, setShowReport] = useState(false);
   const [payloadUsed, setPayloadUsed] = useState(null);
+  const [welcomeName, setWelcomeName] = useState(null);
+
+  useEffect(() => {
+    getWelcomeUser()
+      .then((data) => setWelcomeName(data.name))
+      .catch(() => setWelcomeName(null));
+  }, []);
 
   const canSubmit = listing.title.trim() && listing.description.trim() && listing.asking_price !== "";
 
@@ -78,6 +85,9 @@ export default function App() {
           <p className="text-sm text-slate-500 mt-1">
             중고거래 리스팅과 판매자 정보를 입력하면, 두 개의 독립 모델이 교차 검증한 사기 위험도를 알려드립니다.
           </p>
+          {welcomeName && (
+            <p className="text-sm text-indigo-600 font-medium mt-2">환영합니다, {welcomeName}님!</p>
+          )}
         </div>
       </header>
 

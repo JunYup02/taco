@@ -44,3 +44,7 @@ class ReportRequest(BaseModel):
 class ReportResponse(BaseModel):
     id: int
     message: str
+
+
+class WelcomeUserResponse(BaseModel):
+    name: Optional[str] = None
